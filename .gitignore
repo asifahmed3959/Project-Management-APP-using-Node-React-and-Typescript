@@ -80,6 +80,11 @@ dist/
 .env.test.local
 .env.production.local
 
+# idea information
+.idea
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
