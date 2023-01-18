@@ -38,52 +38,22 @@ interface IWorkOrderState{
 // }
 // }
 
+// another functional component which does props as any
+// Workoder and setWorkOrder is a state
+// used for closed or open workorder
+// id is the param received from the url workoders/1
+// which will be retrieved from database
 const WorkOrderDetail: React.FC<any> = (props) =>{
     const [workorder, setWorkOrder] = useState<IWorkOrderState>( {work_order : null});
     const [isOpen, setIsOpen] = useState<boolean | null>(null)
     const {id} = useParams();
 
-    // const handleEditClick = async (workOrderBeingEdited: IWorkOrderState) => {
-    //     if (isOpen){
-    //         if (workOrderBeingEdited && workOrderBeingEdited.work_order){
-    //             workOrderBeingEdited.work_order.status = "CLOSED"
-    //             let value =  workOrderBeingEdited.work_order
-    //             console.log(value);
-    //              const response = await fetch('/api/workorders/' + id, {
-    //                         method: 'PUT',
-    //                         headers: {
-    //                             'Content-Type': 'application/json',
-    //                         },
-    //                         body: JSON.stringify(value),
-    //                     })
-    //
-    //             if (response.status === 200){
-    //                 setIsOpen(false);
-    //                 setWorkOrder(workOrderBeingEdited);
-    //             }
-    //         }
-    //     }
-    //     else if(isOpen != null && !isOpen){
-    //         if (workOrderBeingEdited && workOrderBeingEdited.work_order){
-    //             workOrderBeingEdited.work_order.status = "OPEN"
-    //             let value =  workOrderBeingEdited.work_order
-    //             console.log(value);
-    //             const response = await fetch('/api/workorders/' + id, {
-    //                 method: 'PUT',
-    //                 headers: {
-    //                     'Content-Type': 'application/json',
-    //                 },
-    //                 body: JSON.stringify(value),
-    //             })
-    //
-    //             if (response.status === 200){
-    //                 setIsOpen(true);
-    //                 setWorkOrder(workOrderBeingEdited);
-    //             }
-    //         }
-    //     }
-    //   };
-
+    // using hooks which helps to use functional component as functions rather than implementing classes
+    // takes in the ID
+    // calls the database
+    // fetches the value
+    // and set the workoder state
+    // IsOpen is another state
     useEffect(() => {
         if (id)
         {
@@ -105,12 +75,10 @@ const WorkOrderDetail: React.FC<any> = (props) =>{
 
     }, [])
 
-    function handleOnChange(e: ChangeEvent<HTMLInputElement>) {
-        console.log("---", e.target.checked);
-        setIsOpen(!workorder);
-    }
 
-
+    //Here I have a toggle switch component
+    // I have passed the state into the toggle switch component as properties
+    // Where once toggled I have set the value and changed the state.
     return (
         <div className="App">
             <header className="App-header">WorkOrderSection</header>
@@ -121,15 +89,6 @@ const WorkOrderDetail: React.FC<any> = (props) =>{
                         <p>The name of the workorder is: {workorder.work_order.name}</p>
                         <p>The status of the workorder is: {workorder.work_order.status}</p>
                         <ToggleSwitch isOpen={isOpen} setIsOpen={setIsOpen} workorder={workorder} setWorkOrder={setWorkOrder} id={id} />
-                        {/*<button*/}
-                        {/*    className="bordered"*/}
-                        {/*          onClick={() => {*/}
-                        {/*             handleEditClick(workorder);*/}
-                        {/*          }}*/}
-                        {/*>*/}
-                        {/*    <span className="icon-edit "></span>*/}
-                        {/*    {workorder.work_order.status}*/}
-                        {/*</button>*/}
                         <p>The Number of assignees are: {workorder.work_order.assignees.length}</p>
                         {workorder.work_order.assignees.map(user => (
                                 <WorkOrderAssignee key={user.id} user={user} />

@@ -9,22 +9,23 @@ import {User} from "../models/User";
 const StyledLabel = styled.label<{ checked: boolean }>`  
 cursor: pointer;  
 text-indent: -9999px;  
-width: 250px;  
-height: 125px;  
+width: 125px;  
+height: 74px;  
 background: ${({ checked }) => (checked ? COLORS.GREEN :  COLORS.GRAY)};  
 display: block;  
-border-radius: 100px;  
+border-radius: 75px;  
 position: relative;&:after {    
 content: "";    
 position: absolute;    
 left: ${({ checked }) => (checked ? "14px" : "calc(55% - 5px)")};    top: 12px;    
-width: 100px;    
-height: 100px;    
+width: 50px;    
+height: 50px;    
 background: #fff;    
 border-radius: 90px;    
 transition: 0.3s;  
 }`;
 
+//Creating the interface for the Workoder
 interface IWorkOrderState{
     work_order : {
         id : number,
@@ -33,8 +34,11 @@ interface IWorkOrderState{
         assignees : User []
     } | null
 }
+
+//This interface defines the state types which is sent as properties from the
+// previous component
 interface ToggleProps{
-    isOpen: boolean | null,
+    isOpen: boolean | null, // checks if the status of the work order is open or closed
 
     setIsOpen :  React.Dispatch<React.SetStateAction<boolean | null>>,
     workorder : IWorkOrderState,
@@ -46,10 +50,10 @@ interface ToggleProps{
 const ToggleSwitch: React.FC<ToggleProps> = (props) => {
 
 
-    function handleOnChange() {
-        // do something
-    }
-
+    //handling on toggle switch
+    // checking if condition is OPEN
+    // or CLOSED
+    // and updating the database accordingly
     const handleEditClick = async (workOrderBeingEdited: IWorkOrderState) => {
         if (props.isOpen){
             if (workOrderBeingEdited && workOrderBeingEdited.work_order){
