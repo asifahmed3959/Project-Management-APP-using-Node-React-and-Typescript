@@ -180,7 +180,7 @@ router.put("/workorders/:id", async (req, res) => {
         }
 
         console.log("Status code: " + 200);
-        return res.json();
+        return res.json({work_order : row});
     });
 });
 

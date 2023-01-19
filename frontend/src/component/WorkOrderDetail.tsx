@@ -1,10 +1,11 @@
 import React, {ChangeEvent, Component, useEffect, useState} from "react";
-import { useParams } from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {MOCK_WORKORDER} from "../models/MockWorkOrder";
 import {WorkOrder} from "../models/WorkOrder";
 import { User } from "../models/User";
 import WorkOrderAssignee from "./WorkOrderAssignee";
 import ToggleSwitch from "./ToggleSwitch";
+import UserComponent from "./UserComponent";
 
 
 
@@ -13,30 +14,14 @@ interface IWorkOrderState{
         id : number,
         name : string,
         status : string
-        assignees : User []
     } | null
 }
 
-//
-// {
-//     "work_order": {
-//     "name": "Walk Dog Morty around the block",
-//         "status": "OPEN",
-//         "id": 3,
-//         "assignees": [
-//         {
-//             "user_id": 1,
-//             "user_email": "alien@mortys.com",
-//             "user_name": "Alien Morty"
-//         },
-//         {
-//             "user_id": 4,
-//             "user_email": "dawg@mortys.com",
-//             "user_name": "Dog Morty"
-//         }
-//     ]
-// }
-// }
+interface IassigneeState{
+    assignees : User []
+}
+
+
 
 // another functional component which does props as any
 // Workoder and setWorkOrder is a state
@@ -45,8 +30,10 @@ interface IWorkOrderState{
 // which will be retrieved from database
 const WorkOrderDetail: React.FC<any> = (props) =>{
     const [workorder, setWorkOrder] = useState<IWorkOrderState>( {work_order : null});
+    const [assignee, setAssignee] = useState<IassigneeState>( {assignees : []});
     const [isOpen, setIsOpen] = useState<boolean | null>(null)
     const {id} = useParams();
+    var link = <Link to="/workorders"><strong>Click Here</strong></Link>
 
     // using hooks which helps to use functional component as functions rather than implementing classes
     // takes in the ID
@@ -58,19 +45,19 @@ const WorkOrderDetail: React.FC<any> = (props) =>{
         if (id)
         {
             const url = "/api/workorders/" + id
-            const fetchData = async () => {
-            try {
-                const response = await fetch(url);
-                const work_order = await response.json();
-                const status = work_order.work_order.status === "OPEN"
-                setIsOpen(status)
-                setWorkOrder(work_order);
+            const url2 = url + "/assignees"
+            const urls = [url, url2];
 
-            } catch (error) {
-                console.log("error", error);
-            }
-        };
-            fetchData();
+            const getData = async () => {
+                const [work_order, assignee] = await Promise.all(
+                    urls.map((url) => fetch(url).then((res) => res.json()))
+                );
+                setWorkOrder(work_order);
+                const status = work_order.work_order.status === "OPEN";
+                setIsOpen(status);
+                setAssignee(assignee);
+            };
+            getData();
         }
 
     }, [])
@@ -82,6 +69,9 @@ const WorkOrderDetail: React.FC<any> = (props) =>{
     return (
         <div className="App">
             <header className="App-header">WorkOrderSection</header>
+            <h3 className="small-header">This is the work order in details with the information of the assignees, to close the work order use the toggle button.{'\n'} To visit the list of work orders {link}</h3>
+            <div className="card">
+                <section className="container">
             {
                 workorder.work_order? (
                     <>
@@ -89,10 +79,6 @@ const WorkOrderDetail: React.FC<any> = (props) =>{
                         <p>The name of the workorder is: {workorder.work_order.name}</p>
                         <p>The status of the workorder is: {workorder.work_order.status}</p>
                         <ToggleSwitch isOpen={isOpen} setIsOpen={setIsOpen} workorder={workorder} setWorkOrder={setWorkOrder} id={id} />
-                        <p>The Number of assignees are: {workorder.work_order.assignees.length}</p>
-                        {workorder.work_order.assignees.map(user => (
-                                <WorkOrderAssignee key={user.id} user={user} />
-                            ))}
                     </>
                 ) : (
                     <p>
@@ -100,6 +86,22 @@ const WorkOrderDetail: React.FC<any> = (props) =>{
                     </p>
                 )
             }
+            {
+                assignee.assignees? (
+                    <>
+                        <p>The Number of assignees are: {assignee.assignees.length}</p>
+                    {assignee.assignees.map(user => (
+                            <UserComponent key={user.id} user={user} />
+                        ))}
+                    </>
+                ) : (
+                    <p>
+                        Sorry This WorkOrder does not exist
+                    </p>
+                )
+            }
+            </section>
+            </div>
         </div>
     )
 }

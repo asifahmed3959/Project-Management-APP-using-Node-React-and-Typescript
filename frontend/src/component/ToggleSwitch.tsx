@@ -1,29 +1,7 @@
-import React, { useState, ChangeEvent } from "react";
-import styled from "styled-components";
-import COLORS from "../styling/color";
-import {User} from "../models/User";
-
-// Creating ToggleSwitch.tsx module
+import StyledLabel from "../styling/toggle"
 
 
-const StyledLabel = styled.label<{ checked: boolean }>`  
-cursor: pointer;  
-text-indent: -9999px;  
-width: 125px;  
-height: 74px;  
-background: ${({ checked }) => (checked ? COLORS.GREEN :  COLORS.GRAY)};  
-display: block;  
-border-radius: 75px;  
-position: relative;&:after {    
-content: "";    
-position: absolute;    
-left: ${({ checked }) => (checked ? "14px" : "calc(55% - 5px)")};    top: 12px;    
-width: 50px;    
-height: 50px;    
-background: #fff;    
-border-radius: 90px;    
-transition: 0.3s;  
-}`;
+
 
 //Creating the interface for the Workoder
 interface IWorkOrderState{
@@ -31,7 +9,6 @@ interface IWorkOrderState{
         id : number,
         name : string,
         status : string
-        assignees : User []
     } | null
 }
 
@@ -47,7 +24,18 @@ interface ToggleProps{
     id : string | undefined
 }
 
+const styles = {
+    togglebutton: {
+        marginBottom: 16
+    }
+};
+
 const ToggleSwitch: React.FC<ToggleProps> = (props) => {
+    const styles = {
+        togglebutton: {
+            marginBottom: 16
+        }
+    };
 
 
     //handling on toggle switch
@@ -58,8 +46,8 @@ const ToggleSwitch: React.FC<ToggleProps> = (props) => {
         if (props.isOpen){
             if (workOrderBeingEdited && workOrderBeingEdited.work_order){
                 workOrderBeingEdited.work_order.status = "CLOSED"
+
                 let value =  workOrderBeingEdited.work_order
-                console.log(value);
                 const response = await fetch('/api/workorders/' + props.id, {
                     method: 'PUT',
                     headers: {

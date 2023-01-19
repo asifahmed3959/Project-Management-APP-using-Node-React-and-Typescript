@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {WorkOrder} from "../models/WorkOrder";
 import WorkOrderPiece from "./WorkOrderPiece";
+import {Link, useNavigate} from "react-router-dom";
 
 
 //initializing an interface
@@ -24,6 +25,7 @@ class WorkOrders extends Component<any, IWorkOrderState> {
     render() {
         // initializing the workoder_list from the state
         const { workorder_list } = this.state;
+        var link = <Link to="/workorders/create"><strong>Click Here</strong></Link>
 
         // checking if the workoder_list is null, if null, fetch the data from database
         if (!workorder_list){
@@ -32,23 +34,24 @@ class WorkOrders extends Component<any, IWorkOrderState> {
         //mapping the workorder list to a card view component
         return (
             <div>
+                <div className="App">
+                    <header className="App-header">WorkOrdersList</header>
+                    <h3 className="small-header">These are the list of workorders, to visit to a certain workorder and see the assignees, click on the name of workorder, to create a workorder {link}</h3>
                 {!!workorder_list && (
                     <>
-                       <div className="App">
-                         <header className="App-header">WorkOrdersList</header>
                            <ul className="row">
                                {workorder_list.map((workorder) => (
                                    <WorkOrderPiece workorder={workorder} key={workorder.id} />
                                ))}
                            </ul>
-                         </div>
                     </>
                 )}
+                </div>
             </div>
         );
     }
 
-    // asynchronous function which fetches data from the data base
+    // asynchronous function which fetches data from the database
     // and changes the state with workorder list
     private getWorkOrder = async () => {
         const response = await fetch("/api/workorders", {

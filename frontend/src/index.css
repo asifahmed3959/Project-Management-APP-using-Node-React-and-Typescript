@@ -58,6 +58,8 @@ code {
   padding: 10px 10px;
 }
 
+
+
 /* Responsive columns - one column layout (vertical) on small screens */
 @media screen and (max-width: 600px) {
   .column {
