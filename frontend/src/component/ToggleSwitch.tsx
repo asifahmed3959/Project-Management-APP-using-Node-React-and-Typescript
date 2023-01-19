@@ -66,7 +66,7 @@ const ToggleSwitch: React.FC<ToggleProps> = (props) => {
             if (workOrderBeingEdited && workOrderBeingEdited.work_order){
                 workOrderBeingEdited.work_order.status = "OPEN"
                 let value =  workOrderBeingEdited.work_order
-                console.log(value);
+
                 const response = await fetch('/api/workorders/' + props.id, {
                     method: 'PUT',
                     headers: {

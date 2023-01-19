@@ -7,6 +7,7 @@ let ts = Date.now();
 
 //get all the users who are not assigned in a workorder
 router.get("/productivity", async (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
     const sql_query = "SELECT * " +
         "FROM users " +
         "WHERE id NOT IN (SELECT user_id FROM work_order_assignees);"
@@ -32,6 +33,7 @@ router.get("/productivity", async (req, res) => {
 
 // get all the available users
 router.get("/users", async (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
     const sql_query = "SELECT * " +
         "FROM users;"
     res.header("Access-Control-Allow-Origin", "*");

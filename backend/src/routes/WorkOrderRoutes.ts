@@ -164,6 +164,8 @@ router.get("/workorders/:id/assignees", async (req, res) => {
 
 // updates the workorder chaning its status
 router.put("/workorders/:id", async (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+
     const work_order = req.body;
     const sql_query = "UPDATE work_orders " +
         "SET status = ?" +
@@ -188,6 +190,8 @@ router.put("/workorders/:id", async (req, res) => {
 //creates a work order and return its id
 // so later assignee can be added to it
 router.post("/workorders/create", async (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+
     if (req.body.name === null) {
         res.status(400);
         res.json({"error": "name is empty"});
@@ -221,6 +225,8 @@ router.post("/workorders/create", async (req, res) => {
 
 //create assignees based on the workorder in the parms
 router.post("/workorders/:id/assignees", async (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+
     if (req.body.user_id === null) {
         res.status(400);
         res.json({"error": "name is empty"});

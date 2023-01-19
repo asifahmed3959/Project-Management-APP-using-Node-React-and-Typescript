@@ -3,22 +3,38 @@ import React, {useState} from "react";
 
 
 interface IProps{
+    workorder_id : number | null,
     user : User,
-    assignees : User[],
-    setassignees :  React.Dispatch<React.SetStateAction<User[]>>,
-    assigned : number[],
-    setassigned: React.Dispatch<React.SetStateAction<number[]>>
+    users : User[],
+    setUsers :  React.Dispatch<React.SetStateAction<User[]>>,
+    assigned : User[],
+    setassigned: React.Dispatch<React.SetStateAction<User[]>>,
 }
 
 
-const CreateWorkOrderAssignee:React.FC<IProps> = ({user,assignees, setassignees, assigned, setassigned}) =>{
+const CreateWorkOrderAssignee:React.FC<IProps> = ({workorder_id, user,users, setUsers, assigned, setassigned}) =>{
     const [selected, setSelected] = useState(false);
 
-    function handleInputChange(user: User) {
-        if (user !== undefined && user.id !== undefined){
-        setSelected(!selected);
-        setassignees(assignees.filter(userItem => userItem !== user));
-        setassigned([...assigned , user.id]);
+    async function handleInputChange(user: User) {
+        if (user !== undefined && user.id !== undefined && workorder_id !== null){
+            const url = "/api/workorders/" + workorder_id.toString() + "/assignees";
+            const postData = async () => {
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ user_id: user.id }),
+                });
+                const status = await response.status;
+                console.log(status)
+                if (status === 201){
+                    setUsers(users.filter(userItem => userItem !== user));
+                    setassigned([...assigned , user]);
+                }
+            }
+            postData();
         }
     }
 
@@ -32,7 +48,6 @@ const CreateWorkOrderAssignee:React.FC<IProps> = ({user,assignees, setassignees,
                         value={user.name}
                         name={user.name}
                         onChange={e => handleInputChange(user)}
-                        checked={selected}
                     />
                     {user.name}
                 </div>
