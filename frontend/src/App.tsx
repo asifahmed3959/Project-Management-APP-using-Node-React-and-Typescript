@@ -5,6 +5,7 @@ import WorkOrderDetail from "./component/WorkOrderDetail";
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import Login from "./component/Login";
 import Input from "./component/Input"
+import Productivity from "./component/Productivity";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
               <Route path="/workorders" index element={<WorkOrders />} />
               <Route path="workorders/:id" element={<WorkOrderDetail />} />
               <Route path="/workorders/create" element={<Input />} />
+              <Route path="/users/productivity" element={<Productivity />} />
 
           </Routes>
       </Router>
