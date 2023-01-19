@@ -1,25 +1,28 @@
-import { open as sqliteOpen } from "sqlite";
-import { Database } from "sqlite3";
-const db = sqliteOpen({ filename: ":memory:", driver: Database });
+const sqlite3 = require('sqlite3').verbose();
+// Open a SQLite database, stored in the memory
+let db = new sqlite3.Database(':memory:');
 
-const sql = (...args: Parameters<Database["all"]>) =>
-  db
-    .then((dbo) => dbo.all(...args))
-    .catch((e) => {
-      console.error("DB Error:", e);
-      throw e;
-    });
+// had to change the way to execute the db
+// I could not figure out a way to log the errors
+// if something went wrong with the database
+// therefore changed the default settings
+// also could not figure out a way to get the ids of creating new rows
+// which would have been crucial to create a workorder and assign assignees to them
+// If I had more time I would also like to implement roll back, which would have created
+// more robut database.
 
-(async () => {
+
+const startDatabase = async () => {
   // Users
-  await sql(`
+  await db.exec(`
     CREATE TABLE users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name VARCHAR(255),
       email VARCHAR(255)
     );
   `);
-  await sql(`
+
+  await db.exec(`
     INSERT INTO users (id, name, email)
     VALUES
       (1, 'Alien Morty', 'alien@mortys.com'),
@@ -34,14 +37,14 @@ const sql = (...args: Parameters<Database["all"]>) =>
   `);
 
   // Work Orders
-  await sql(`
+  await db.exec(`
     CREATE TABLE work_orders (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name VARCHAR(255),
       status VARCHAR(255) CHECK( status IN ('OPEN', 'CLOSED') ) NOT NULL DEFAULT 'OPEN'
     );
   `);
-  await sql(`
+  await db.exec(`
     INSERT INTO work_orders (id, name, status)
     VALUES
       (1, 'Unfreeze Frozen Morty', 'OPEN'),
@@ -54,7 +57,7 @@ const sql = (...args: Parameters<Database["all"]>) =>
   `);
 
   // Work Order Assignees
-  await sql(`
+  await db.exec(`
     CREATE TABLE work_order_assignees (
       work_order_id INT NOT NULL,
       user_id INT NOT NULL,
@@ -63,7 +66,7 @@ const sql = (...args: Parameters<Database["all"]>) =>
       FOREIGN KEY(user_id) REFERENCES users(id)
     );
   `);
-  await sql(`
+  await db.exec(`
     INSERT INTO work_order_assignees (work_order_id, user_id)
     VALUES
       (3, 1),
@@ -73,6 +76,8 @@ const sql = (...args: Parameters<Database["all"]>) =>
       (6, 5),
       (4, 8);
   `);
-})();
+};
 
-export default sql;
+startDatabase();
+
+export default db;
