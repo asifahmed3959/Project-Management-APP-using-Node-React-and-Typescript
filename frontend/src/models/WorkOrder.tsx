@@ -1,3 +1,5 @@
+// contains the WorkOrder model
+
 export class WorkOrder {
     id: number | undefined;
     name: string = '';

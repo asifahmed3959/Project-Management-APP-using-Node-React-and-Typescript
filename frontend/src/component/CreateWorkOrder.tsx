@@ -21,7 +21,7 @@ interface Props{
 // assignees in one single request, if something goes wrong I will be not sure what went wrong.
 // therefore, I create a work order
 // once that is created I update a single user as an assignee.
-const Input: React.FC<Props> = (props) => {
+const CreateWorkOrder: React.FC<Props> = (props) => {
     const [formName, setFormName] = useState("");
     const [workoderCreated, setWorkOrderCreate] = useState(false);
     const [users, setUsers] = useState<User[]>([]);
@@ -136,4 +136,4 @@ const Input: React.FC<Props> = (props) => {
     );
 };
 
-export default Input;
+export default CreateWorkOrder;

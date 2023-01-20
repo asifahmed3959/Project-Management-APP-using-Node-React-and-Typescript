@@ -3,7 +3,7 @@ import './App.css';
 import WorkOrders from "./component/WorkOrdersList";
 import WorkOrderDetail from "./component/WorkOrderDetail";
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
-import Input from "./component/Input"
+import CreateWorkOrder from "./component/CreateWorkOrder"
 import Productivity from "./component/Productivity";
 import Home from "./component/Home";
 
@@ -16,7 +16,7 @@ function App() {
               <Route path="/" index element={<Home />} />
               <Route path="/workorders" index element={<WorkOrders />} />
               <Route path="workorders/:id" element={<WorkOrderDetail />} />
-              <Route path="/workorders/create" element={<Input />} />
+              <Route path="/workorders/create" element={<CreateWorkOrder />} />
               <Route path="/users/productivity" element={<Productivity />} />
 
           </Routes>

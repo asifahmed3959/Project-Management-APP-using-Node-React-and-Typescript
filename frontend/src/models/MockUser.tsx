@@ -1,6 +1,6 @@
 import { User } from './User';
 
-
+/// mock data for testing
 export const MOCK_USER = [
     new User({
         id: 1,
