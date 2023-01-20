@@ -11,7 +11,9 @@ interface IProps{
     setassigned: React.Dispatch<React.SetStateAction<User[]>>,
 }
 
-
+// creates a single assignee and updates the list
+// which helps to render the list of users who are assigned and not assigned
+// also the feature of removing the assignees when creating the workorder can be used
 const CreateWorkOrderAssignee:React.FC<IProps> = ({workorder_id, user,users, setUsers, assigned, setassigned}) =>{
     const [selected, setSelected] = useState(false);
 

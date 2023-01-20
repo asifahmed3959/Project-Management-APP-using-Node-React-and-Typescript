@@ -13,6 +13,14 @@ interface Props{
     // handleAdd: (e: React.FormEvent) => void;
 }
 
+
+// the idea was as this is a multiple create and one dependent on the other
+// I wanted to ensure that if an error occurs I am able to debug it.
+// also allows handle roll back incase a database error happened.
+// for example say I create a work order, and then try to create multiple
+// assignees in one single request, if something goes wrong I will be not sure what went wrong.
+// therefore, I create a work order
+// once that is created I update a single user as an assignee.
 const Input: React.FC<Props> = (props) => {
     const [formName, setFormName] = useState("");
     const [workoderCreated, setWorkOrderCreate] = useState(false);
@@ -20,7 +28,7 @@ const Input: React.FC<Props> = (props) => {
     const [assigned, setassigned] = useState<User[]>([]);
     const inputRef = useRef< HTMLInputElement>(null);
     const [workorder_id, setWorkOrderId] = useState<number | null>(null);
-    
+
 
     const handleSubmit = async (workodername:string) => {
 

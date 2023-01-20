@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {User} from "../models/User";
 import WorkOrderPiece from "./WorkOrderPiece";
 import UserComponent from "./UserComponent";
+import {Link} from "react-router-dom";
 
 
 //initializing an interface
@@ -26,6 +27,8 @@ class Productivity extends Component<any, IUserState> {
         // initializing the workoder_list from the state
         const { user_list } = this.state;
 
+        var link = <Link to="/"><strong>Click Here</strong></Link>
+
         // checking if the workoder_list is null, if null, fetch the data from database
         if (!user_list){
             this.getUser();
@@ -37,7 +40,7 @@ class Productivity extends Component<any, IUserState> {
                     <>
                         <div className="App">
                             <header className="App-header">Productivity List</header>
-                            <h3 className="small-header">These are the list of users who are not assigned in a work order</h3>
+                            <h3 className="small-header">These are the list of users who are not assigned in a work order. To go back to home {link}</h3>
                             <ul className="row">
                                     <div className="card">
                                         <section className="container">

@@ -7,6 +7,8 @@ import Input from "./component/Input"
 import Productivity from "./component/Productivity";
 import Home from "./component/Home";
 
+
+// the react-router-dom package has been updated and this enlists are the paths
 function App() {
   return (
       <Router>
