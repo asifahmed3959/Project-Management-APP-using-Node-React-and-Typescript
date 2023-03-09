@@ -36,16 +36,16 @@ const startDatabase = async () => {
       (9, 'Pickle Morty', 'letsmarinate@mortys.com');
   `);
 
-  // Work Orders
+  // projects
   await db.exec(`
-    CREATE TABLE work_orders (
+    CREATE TABLE projects (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name VARCHAR(255),
       status VARCHAR(255) CHECK( status IN ('OPEN', 'CLOSED') ) NOT NULL DEFAULT 'OPEN'
     );
   `);
   await db.exec(`
-    INSERT INTO work_orders (id, name, status)
+    INSERT INTO projects (id, name, status)
     VALUES
       (1, 'Unfreeze Frozen Morty', 'OPEN'),
       (2, 'Clean Cat Morty''s litterbox', 'OPEN'),
@@ -58,16 +58,16 @@ const startDatabase = async () => {
 
   // Work Order Assignees
   await db.exec(`
-    CREATE TABLE work_order_assignees (
-      work_order_id INT NOT NULL,
+    CREATE TABLE project_assignees (
+      project_id INT NOT NULL,
       user_id INT NOT NULL,
-      PRIMARY KEY(work_order_id, user_id),
-      FOREIGN KEY(work_order_id) REFERENCES work_orders(id),
+      PRIMARY KEY(project_id, user_id),
+      FOREIGN KEY(project_id) REFERENCES projects(id),
       FOREIGN KEY(user_id) REFERENCES users(id)
     );
   `);
   await db.exec(`
-    INSERT INTO work_order_assignees (work_order_id, user_id)
+    INSERT INTO project_assignees (project_id, user_id)
     VALUES
       (3, 1),
       (5, 1),

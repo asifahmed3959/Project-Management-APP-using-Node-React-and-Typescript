@@ -39,22 +39,22 @@ VALUES
 UNLOCK TABLES;
 
 
-# Dump of table work_order_assignees
+# Dump of table project_assignees
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `work_order_assignees`;
+DROP TABLE IF EXISTS `project_assignees`;
 
-CREATE TABLE `work_order_assignees` (
-  `work_order_id` int(11) NOT NULL,
+CREATE TABLE `project_assignees` (
+  `project_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`work_order_id`,`user_id`),
+  PRIMARY KEY (`project_id`,`user_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-LOCK TABLES `work_order_assignees` WRITE;
+LOCK TABLES `project_assignees` WRITE;
 /*!40000 ALTER TABLE `work_order_assignees` DISABLE KEYS */;
 
-INSERT INTO `work_order_assignees` (`work_order_id`, `user_id`)
+INSERT INTO `project_assignees` (`work_order_id`, `user_id`)
 VALUES
 	(3,1),
 	(5,1),
@@ -67,22 +67,22 @@ VALUES
 UNLOCK TABLES;
 
 
-# Dump of table work_orders
+# Dump of table project
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `work_orders`;
+DROP TABLE IF EXISTS `project`;
 
-CREATE TABLE `work_orders` (
+CREATE TABLE `project` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` enum('OPEN','CLOSED') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'OPEN',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-LOCK TABLES `work_orders` WRITE;
-/*!40000 ALTER TABLE `work_orders` DISABLE KEYS */;
+LOCK TABLES `project` WRITE;
+/*!40000 ALTER TABLE `project` DISABLE KEYS */;
 
-INSERT INTO `work_orders` (`id`, `name`, `status`)
+INSERT INTO `project` (`id`, `name`, `status`)
 VALUES
 	(1,'Unfreeze Frozen Morty','OPEN'),
 	(2,'Clean Cat Morty\'s litterbox','OPEN'),
@@ -92,7 +92,7 @@ VALUES
 	(6,'Freeze Morty','CLOSED'),
 	(7,'Don\'t assign and close','CLOSED');
 
-/*!40000 ALTER TABLE `work_orders` ENABLE KEYS */;
+/*!40000 ALTER TABLE `project` ENABLE KEYS */;
 UNLOCK TABLES;
 
 

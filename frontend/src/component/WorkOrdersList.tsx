@@ -24,8 +24,8 @@ class WorkOrders extends Component<any, IWorkOrderState> {
 
     render() {
         // initializing the workoder_list from the state
-        const { workorder_list } = this.state;
-        var link = <Link to="/workorders/create"><strong>Click Here</strong></Link>
+        let { workorder_list } = this.state;
+        const link = <Link to="/workorders/create"><strong>Click Here</strong></Link>
 
         // checking if the workoder_list is null, if null, fetch the data from database
         if (!workorder_list){
@@ -54,7 +54,7 @@ class WorkOrders extends Component<any, IWorkOrderState> {
     // asynchronous function which fetches data from the database
     // and changes the state with workorder list
     private getWorkOrder = async () => {
-        const response = await fetch("/api/workorders", {
+        const response = await fetch("/api/projects", {
             method: "GET",
             headers: {
                 Accept: "application/json",
@@ -62,7 +62,7 @@ class WorkOrders extends Component<any, IWorkOrderState> {
             }
         });
         const jsonResponse = await response.json();
-        this.setState({ workorder_list: jsonResponse.workorder_list });
+        this.setState({ workorder_list: jsonResponse.project_list });
     };
 }
 
